@@ -1,0 +1,18 @@
+# 1. Biblioteki (to jest najważniejsze - folder vendor jest ogromny)
+/vendor/
+
+# 2. Bezpieczeństwo (hasła do bazy danych)
+config.php
+
+# 3. Pliki systemowe i śmieci
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 4. Logi i pliki tymczasowe
+/logs/
+*.log
+
+# 5. Ewentualne wygenerowane PDF-y (żeby nie zaśmiecać repozytorium testami)
+*.pdf
