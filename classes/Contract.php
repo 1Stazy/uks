@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 use Mpdf\Mpdf;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class Contract {
     private $db;
@@ -239,37 +241,65 @@ class Contract {
     }
 
     private function sendEmail($id, $type, $reason = '', $pdfContent = null) {
-        // Symulacja wysyłania maila (bez konfiguracji SMTP w XAMPP PHP mail() rzadko działa out-of-box)
-        // W produkcji użyłbyś PHPMailer.
-        // Tutaj zapiszemy "maila" do pliku tekstowego logs/email_log.txt żebyś widział że działa.
-        
-        $logDir = __DIR__ . '/../logs';
-        if(!is_dir($logDir)) mkdir($logDir);
-        
-        $stmt = $this->db->prepare("SELECT email FROM contracts WHERE contract_id = ?");
-        $stmt->execute([$id]);
-        $userEmail = $stmt->fetchColumn();
-        
-        $msg = "--- NOWY EMAIL ---
-";
-        $msg .= "Do: " . ADMIN_EMAIL . ", " . $userEmail . "
-";
-        $msg .= "Temat: Zmiana statusu umowy $id
-";
-        
-        if($type == 'accepted') {
-            $msg .= "Treść: Twoja umowa została zaakceptowana! W załączniku przesyłamy PDF.
-";
-            $msg .= "[Załączono PDF o rozmiarze: ".strlen($pdfContent)." bajtów]
-";
-        } elseif($type == 'rejected') {
-            $msg .= "Treść: Twoja umowa została odrzucona.
-";
-            $msg .= "Powód: $reason
-";
+        $mail = new PHPMailer(true);
+
+        try {
+            // Konfiguracja serwera
+            $mail->isSMTP();
+            $mail->Host       = SMTP_HOST;
+            $mail->SMTPAuth   = true;
+            $mail->Username   = SMTP_USER;
+            $mail->Password   = SMTP_PASS;
+            $mail->SMTPSecure = SMTP_SECURE;
+            $mail->Port       = SMTP_PORT;
+            $mail->CharSet    = 'UTF-8';
+
+            // Nadawca
+            $mail->setFrom(SMTP_USER, 'System UKS');
+
+            // Odbiorca (Klient)
+            $stmt = $this->db->prepare("SELECT email FROM contracts WHERE contract_id = ?");
+            $stmt->execute([$id]);
+            $userEmail = $stmt->fetchColumn();
+
+            $mail->addAddress($userEmail);     // Wyślij do klienta
+            $mail->addBCC(ADMIN_EMAIL);        // Ukryta kopia do Admina
+
+            // Treść
+            $mail->isHTML(true);
+            
+            if($type == 'accepted') {
+                $mail->Subject = "Akceptacja umowy nr $id";
+                $mail->Body    = "
+                    <h2>Dzień dobry!</h2>
+                    <p>Twoja umowa o numerze <strong>$id</strong> została pomyślnie zweryfikowana i zaakceptowana przez administratora.</p>
+                    <p>W załączniku znajduje się finalny dokument PDF z obustronnymi podpisami.</p>
+                    <br>
+                    <p>Pozdrawiamy,<br>Zespół SampleStore</p>
+                ";
+                // Załącz PDF z pamięci (string)
+                if($pdfContent) {
+                    $mail->addStringAttachment($pdfContent, "Umowa_$id.pdf");
+                }
+            } elseif($type == 'rejected') {
+                $mail->Subject = "Odrzucenie umowy nr $id";
+                $mail->Body    = "
+                    <h2>Witaj.</h2>
+                    <p>Niestety, Twoja umowa o numerze <strong>$id</strong> została odrzucona.</p>
+                    <p style='color:red;'>Powód odrzucenia: <strong>$reason</strong></p>
+                    <p>Prosimy o ponowne wypełnienie formularza z poprawnymi danymi.</p>
+                    <br>
+                    <p>Pozdrawiamy,<br>Zespół SampleStore</p>
+                ";
+            }
+
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            // Logowanie błędu do pliku, jeśli mail nie wyjdzie
+            file_put_contents(__DIR__ . '/../logs/mail_error.txt', "Błąd wysyłania: {$mail->ErrorInfo}\n", FILE_APPEND);
+            return false;
         }
-        
-        file_put_contents($logDir . '/emails.txt', $msg, FILE_APPEND);
     }
 }
 ?>
