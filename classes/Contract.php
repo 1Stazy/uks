@@ -23,6 +23,7 @@ class Contract {
 
     public function create($data) {
         // Zabezpieczenie: Honeypot
+        $data['seller_name'] = $data['seller_firstname'] . ' ' . $data['seller_lastname'];
         if (!empty($data['hp_website'])) {
             return ['success' => false, 'message' => 'Bot detected (honeypot).'];
         }
@@ -205,7 +206,7 @@ class Contract {
                     <td style="width:10%;"></td>
                     <td style="width:45%; vertical-align:top;">
                         <strong>KUPUJĄCY (Administrator):</strong><br>
-                        SampleStore Sp. z o.o.<br>
+                        Przykładowa Firma Sp. z o.o.<br>
                         ul. Przykładowa 1<br>
                         00-001 Warszawa<br>
                         NIP: 123-456-78-90
@@ -275,7 +276,7 @@ class Contract {
                     <p>Twoja umowa o numerze <strong>$id</strong> została pomyślnie zweryfikowana i zaakceptowana przez administratora.</p>
                     <p>W załączniku znajduje się finalny dokument PDF z obustronnymi podpisami.</p>
                     <br>
-                    <p>Pozdrawiamy,<br>Zespół SampleStore</p>
+                    <p>Pozdrawiamy,<br>Zespół Przykładowa Firma</p>
                 ";
                 // Załącz PDF z pamięci (string)
                 if($pdfContent) {
@@ -289,7 +290,7 @@ class Contract {
                     <p style='color:red;'>Powód odrzucenia: <strong>$reason</strong></p>
                     <p>Prosimy o ponowne wypełnienie formularza z poprawnymi danymi.</p>
                     <br>
-                    <p>Pozdrawiamy,<br>Zespół SampleStore</p>
+                    <p>Pozdrawiamy,<br>Zespół Przykładowa Firma</p>
                 ";
             }
 

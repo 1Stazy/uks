@@ -45,8 +45,11 @@ $title = $titles[$type] ?? 'Umowa';
                     <input type="date" name="date" required class="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Imię i Nazwisko Sprzedawcy</label>
-                    <input type="text" name="seller_name" required class="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none">
+                    <label class="block text-sm font-medium text-gray-700">Dane Sprzedawcy</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" name="seller_firstname" placeholder="Imię" required class="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none">
+                        <input type="text" name="seller_lastname" placeholder="Nazwisko" required class="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
                 </div>
             </div>
 
