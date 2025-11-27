@@ -301,5 +301,13 @@ class Contract {
             return false;
         }
     }
+
+    public function bulkDelete($ids) {
+        if(empty($ids) || !is_array($ids)) return false;
+        // Tworzymy string ze znakami zapytania np. ?,?,?
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $stmt = $this->db->prepare("DELETE FROM contracts WHERE contract_id IN ($placeholders)");
+        return $stmt->execute($ids);
+    }
 }
 ?>

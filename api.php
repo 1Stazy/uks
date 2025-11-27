@@ -49,4 +49,9 @@ if ($action === 'logout') {
     header('Location: login.php');
     exit;
 }
+
+if ($action === 'bulk_delete') {
+    $ids = $_POST['ids'] ?? [];
+    echo json_encode(['success' => $contract->bulkDelete($ids)]);
+}
 ?>

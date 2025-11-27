@@ -71,13 +71,13 @@ $reasons = ['Brak czytelnego podpisu', 'Błędne dane kwotowe', 'Niezgodność t
                     <option value="clothes" <?= $filterType=='clothes'?'selected':'' ?>>Ubrania</option>
                     <option value="electronics" <?= $filterType=='electronics'?'selected':'' ?>>Elektronika</option>
                 </select>
-                <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded">Filtruj</button>
+                <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded">Filtruj</button> <button type="button" onclick="deleteSelected()" id="bulkDeleteBtn" class="bg-red-600 text-white px-4 py-2 rounded ml-4 hidden">Usuń zaznaczone (<span id="countSelected">0</span>)</button>
             </form>
 
             <table class="w-full bg-white shadow rounded overflow-hidden">
                 <thead class="bg-gray-50 border-b">
                     <tr>
-                        <th class="p-3 text-left">ID</th>
+                        <th class="p-3 text-left"><input type="checkbox" id="selectAll" onclick="toggleAll(this)"> ID</th>
                         <th class="p-3 text-left">Sprzedawca</th>
                         <th class="p-3 text-left">Kwota</th>
                         <th class="p-3 text-left">Data</th>
@@ -87,7 +87,7 @@ $reasons = ['Brak czytelnego podpisu', 'Błędne dane kwotowe', 'Niezgodność t
                 <tbody>
                     <?php foreach($accepted as $c): ?>
                     <tr class="border-b hover:bg-gray-50 <?= $c->is_warranty ? 'bg-red-50 text-red-900' : '' ?>">
-                        <td class="p-3 font-mono">
+                        <td class="p-3 font-mono"><input type="checkbox" name="ids[]" value="<?= $c->contract_id ?>" class="chk-contract mr-2" onclick="updateBulkBtn()">
                             <?= $c->contract_id ?>
                             <?php if($c->is_warranty): ?><span class="text-xs font-bold text-red-600 ml-2">[RĘKOJMIA]</span><?php endif; ?>
                         </td>
@@ -166,5 +166,49 @@ $reasons = ['Brak czytelnego podpisu', 'Błędne dane kwotowe', 'Niezgodność t
             location.reload(); // Odśwież, żeby zobaczyć czerwony pasek
         }
     </script>
+
+<script>
+    function toggleAll(source) {
+        const checkboxes = document.querySelectorAll('.chk-contract');
+        checkboxes.forEach(cb => {
+            cb.checked = source.checked;
+        });
+        updateBulkBtn();
+    }
+
+    function updateBulkBtn() {
+        const count = document.querySelectorAll('.chk-contract:checked').length;
+        const btn = document.getElementById('bulkDeleteBtn');
+        const counter = document.getElementById('countSelected');
+        
+        if(counter) counter.innerText = count;
+        
+        if(btn) {
+            if(count > 0) btn.classList.remove('hidden');
+            else btn.classList.add('hidden');
+        }
+    }
+
+    async function deleteSelected() {
+        const selected = Array.from(document.querySelectorAll('.chk-contract:checked')).map(cb => cb.value);
+        if(selected.length === 0) return;
+
+        if(!confirm("Czy na pewno usunąć " + selected.length + " zaznaczonych umów?")) return;
+        
+        const fd = new FormData();
+        selected.forEach(id => fd.append('ids[]', id));
+        
+        try {
+            const res = await fetch('api.php?action=bulk_delete', { method:'POST', body:fd });
+            const data = await res.json();
+            if(data.success) location.reload();
+            else alert('Błąd podczas usuwania');
+        } catch(e) {
+            console.error(e);
+            alert('Błąd komunikacji z serwerem');
+        }
+    }
+</script>
 </body>
+
 </html>
