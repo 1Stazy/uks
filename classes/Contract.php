@@ -24,13 +24,13 @@ class Contract {
     public function create($data) {
         // Zabezpieczenie: Honeypot
         $data['seller_name'] = $data['seller_firstname'] . ' ' . $data['seller_lastname'];
-        if (!empty($data['hp_website'])) {
+        if (!empty($data['hp_website']) || !empty($data['hp_extra'])) {
             return ['success' => false, 'message' => 'Bot detected (honeypot).'];
         }
         // Zabezpieczenie: Czas wypełniania (min 15s)
         $loadTime = isset($data['form_load_time']) ? intval($data['form_load_time']) : 0;
-        if (time() - $loadTime < 15) {
-             return ['success' => false, 'message' => 'Formularz wypełniony za szybko. Podejrzenie bota.'];
+        if (time() - $loadTime < 13) {
+             return ['success' => false, 'message' => 'JESTEŚ BOTEM! Wykryto nienaturalne zachowanie.'];
         }
 
         $id = $this->generateId();

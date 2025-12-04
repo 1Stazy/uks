@@ -37,7 +37,8 @@ $title = $titles[$type] ?? 'Umowa';
         <form id="uks-form" class="space-y-4">
             <input type="hidden" name="type" value="<?= $type ?>">
             <input type="hidden" name="form_load_time" value="<?= time() ?>">
-            <input type="text" name="hp_website" class="hidden" autocomplete="off">
+            <input type="text" name="hp_website" class="hidden">
+            <input type="text" name="hp_extra" class="hidden" autocomplete="off" autocomplete="off">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
