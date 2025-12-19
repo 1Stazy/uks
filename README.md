@@ -24,6 +24,8 @@ cd UKS_App
 ### 2. Instalacja bibliotek
 Projekt wykorzystuje `mPDF` do generowania dokumentów oraz `PHPMailer` do wysyłki e-maili. Zainstaluj je komendą:
 
+composer require mpdf/mpdf phpmailer/phpmailer
+
 
 
 
