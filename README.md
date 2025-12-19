@@ -2,7 +2,7 @@
 
 Aplikacja webowa umożliwiająca generowanie, podpisywanie online i zarządzanie umowami kupna-sprzedaży (Pojazdy, Ubrania, Elektronika). System generuje pliki PDF z podpisami cyfrowymi i wysyła je automatycznie na e-mail.
 
-## 🚀 Wymagania systemowe
+## Wymagania systemowe
 
 Aby uruchomić projekt lokalnie, potrzebujesz:
 * **XAMPP** (z PHP w wersji 8.0 lub nowszej)
@@ -11,12 +11,12 @@ Aby uruchomić projekt lokalnie, potrzebujesz:
 
 ---
 
-## 🛠️ Instrukcja instalacji (Krok po kroku)
+##Instrukcja instalacji
 
 ### 1. Pobranie projektu
 Otwórz terminal w folderze `htdocs` (np. `C:\xampp\htdocs`) i wpisz:
 
-```bash
+
 git clone [https://github.com/1Stazy/uks.git](https://github.com/1Stazy/uks.git) UKS_App
 cd UKS_App
 ```
@@ -58,7 +58,7 @@ Aby na umowach pojawiał się podpis kupującego (administratora), wgraj plik PN
 
 ---
 
-## 🔑 Dane logowania
+## Dane logowania
 
 Domyślne konto administratora (zdefiniowane w bazie):
 * **Login:** Admin
@@ -67,7 +67,7 @@ Domyślne konto administratora (zdefiniowane w bazie):
 
 ---
 
-## 📦 Funkcjonalności
+## Funkcjonalności
 
 * ✅ **3 typy umów:** Auta, Ubrania, Elektronika (z dynamicznymi polami).
 * ✅ **Podpis cyfrowy:** Rysowanie podpisu na ekranie (Canvas).
@@ -78,5 +78,5 @@ Domyślne konto administratora (zdefiniowane w bazie):
 
 ---
 
-## 👤 Autor
+## Autor
 Zespół projektowy nr 4
