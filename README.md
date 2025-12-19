@@ -11,7 +11,7 @@ Aby uruchomić projekt lokalnie, potrzebujesz:
 
 ---
 
-##Instrukcja instalacji
+Instrukcja instalacji
 
 ### 1. Pobranie projektu
 Otwórz terminal w folderze `htdocs` (np. `C:\xampp\htdocs`) i wpisz:
