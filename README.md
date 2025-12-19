@@ -1,4 +1,4 @@
-# 📄 Generator Umów Kupna-Sprzedaży (UKS)
+# Generator Umów Kupna-Sprzedaży (UKS)
 
 Aplikacja webowa umożliwiająca generowanie, podpisywanie online i zarządzanie umowami kupna-sprzedaży (Pojazdy, Ubrania, Elektronika). System generuje pliki PDF z podpisami cyfrowymi i wysyła je automatycznie na e-mail.
 
