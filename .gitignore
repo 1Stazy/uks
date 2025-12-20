@@ -2,7 +2,6 @@
 /vendor/
 
 # 2. Bezpieczeństwo (hasła do bazy danych)
-config.php
 
 # 3. Pliki systemowe i śmieci
 .DS_Store
