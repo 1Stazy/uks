@@ -37,8 +37,9 @@ $title = $titles[$type] ?? 'Umowa';
         <form id="uks-form" class="space-y-4">
             <input type="hidden" name="type" value="<?= $type ?>">
             <input type="hidden" name="form_load_time" value="<?= time() ?>">
+            
             <input type="text" name="hp_website" class="hidden">
-            <input type="text" name="hp_extra" class="hidden" autocomplete="off" autocomplete="off">
+            <input type="text" name="hp_extra" class="hidden" autocomplete="off">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -57,7 +58,7 @@ $title = $titles[$type] ?? 'Umowa';
             <div class="grid grid-cols-3 gap-2">
                 <input type="text" name="street" placeholder="Ulica i nr" class="w-full border border-gray-300 p-2 rounded" required>
                 <input type="text" name="city" placeholder="Miasto" class="w-full border border-gray-300 p-2 rounded" required>
-                <input type="text" name="postal_code" placeholder="Kod pocztowy" class="w-full border border-gray-300 p-2 rounded" required>
+                <input type="text" name="postal_code" placeholder="Kod pocztowy" oninput="this.value = this.value.replace(/[^0-9-]/g, '')" class="w-full border border-gray-300 p-2 rounded" required>
             </div>
 
             <input type="email" name="email" placeholder="Twój Email (do powiadomień)" class="w-full border border-gray-300 p-2 rounded" required>
@@ -70,10 +71,10 @@ $title = $titles[$type] ?? 'Umowa';
                     <option value="cash">Gotówka</option>
                 </select>
                 <div id="account-box" class="mt-2">
-                    <input type="text" name="account_number" placeholder="Numer konta" class="w-full border p-2 rounded">
+                    <input type="text" name="account_number" placeholder="Numer konta" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full border p-2 rounded">
                 </div>
                 <div id="phone-box" class="mt-2 hidden">
-                    <input type="text" name="phone_number" placeholder="Nr telefonu BLIK" class="w-full border p-2 rounded">
+                    <input type="text" name="phone_number" placeholder="Nr telefonu BLIK" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full border p-2 rounded">
                 </div>
             </div>
 
@@ -82,10 +83,10 @@ $title = $titles[$type] ?? 'Umowa';
                 <div id="product-container">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 bg-blue-50 p-3 rounded">
                         <input type="text" name="item_name[]" placeholder="Nazwa / Marka" class="border p-2 rounded w-full" required>
-                        <input type="number" step="0.01" name="item_price[]" placeholder="Kwota (PLN)" class="border p-2 rounded w-full" required>
+                        <input type="number" min="0" step="0.01" name="item_price[]" placeholder="Kwota (PLN)" class="border p-2 rounded w-full" required>
                         
                         <?php if($type == 'car'): ?>
-                            <input type="text" name="item_extra1[]" placeholder="Przebieg" class="border p-2 rounded w-full">
+                            <input type="text" name="item_extra1[]" placeholder="Przebieg (km)" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="border p-2 rounded w-full">
                             <input type="text" name="item_extra2[]" placeholder="VIN / Rocznik" class="border p-2 rounded w-full">
                         <?php elseif($type == 'clothes'): ?>
                             <input type="text" name="item_extra1[]" placeholder="Rozmiar (np. XL)" class="border p-2 rounded w-full">
@@ -179,3 +180,5 @@ $title = $titles[$type] ?? 'Umowa';
     </script>
 </body>
 </html>
+
+```
