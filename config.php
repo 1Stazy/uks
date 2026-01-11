@@ -12,7 +12,7 @@ define('ADMIN_PASS', 'Admin');
 // Ustawienia SMTP (Poczta)
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_USER', 'dudux73@gmail.com'); // Twój adres Gmail
-define('SMTP_PASS', 'ilow ashg rhex qehr'); // <-- To z Kroku 2
+define('SMTP_PASS', 'ztyg kwzl rcct ebvf'); // <-- To z Kroku 2
 define('SMTP_PORT', 465);
 define('SMTP_SECURE', 'ssl'); // 'ssl' dla portu 465
 
